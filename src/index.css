@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  h1, h2, h3, .font-serif-luxury {
+    font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  }
+}
+
+/* Custom Luxury Gradients & Shimmers */
+.gold-shimmer-text {
+  background: linear-gradient(135deg, #A9513D 0%, #D28674 50%, #C69214 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.rosegold-gradient-bg {
+  background: linear-gradient(135deg, #C56F5A 0%, #D28674 50%, #ECC9BF 100%);
+}
+
+.rosegold-subtle-bg {
+  background: linear-gradient(145deg, #FDFBF7 0%, #FAF5EF 50%, #F5E8DF 100%);
+}
+
+.gold-border-gradient {
+  border-image: linear-gradient(to right, #ECC9BF, #C56F5A, #ECC9BF) 1;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #FAF5EF;
+}
+::-webkit-scrollbar-thumb {
+  background: #ECC9BF;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #C56F5A;
+}
+
+/* Subtle Diamond Sparkle Animation */
+@keyframes sparkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+.animate-sparkle {
+  animation: sparkle 3s ease-in-out infinite;
+}
