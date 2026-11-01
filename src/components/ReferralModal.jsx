@@ -1,17 +1,43 @@
 import React, { useState } from 'react';
 import { useStore } from '../context/StoreContext';
-import { X, QrCode, Copy, Check, Share2, Sparkles, MessageSquareShare } from 'lucide-react';
+import { X, QrCode, Copy, Check, Share2, Sparkles, MessageSquareShare, Edit3 } from 'lucide-react';
 
 export default function ReferralModal() {
   const { isReferralOpen, setIsReferralOpen, showToast } = useStore();
   const [copied, setCopied] = useState(false);
   const [copiedCode, setCopiedCode] = useState(false);
 
+  // Dynamic / Editable Account Name and Referral Code
+  const [accountName, setAccountName] = useState(() => {
+    return localStorage.getItem('sb_account_name') || 'Valued Customer';
+  });
+
+  const [referralCode, setReferralCode] = useState(() => {
+    return localStorage.getItem('sb_referral_code') || 'SB-VIP888';
+  });
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [tempName, setTempName] = useState(accountName);
+  const [tempCode, setTempCode] = useState(referralCode);
+
   if (!isReferralOpen) return null;
 
-  const referralCode = 'SB-RAJESH789';
   const referralUrl = `https://suvarna-bharat.netlify.app/?ref=${referralCode}`;
-  const accountName = 'Rajesh Kumar Sharma';
+
+  const handleSaveProfile = (e) => {
+    e.preventDefault();
+    const cleanName = tempName.trim() || 'Valued Customer';
+    const cleanCode = tempCode.trim().toUpperCase() || 'SB-VIP888';
+
+    setAccountName(cleanName);
+    setReferralCode(cleanCode);
+
+    localStorage.setItem('sb_account_name', cleanName);
+    localStorage.setItem('sb_referral_code', cleanCode);
+
+    setIsEditing(false);
+    showToast('Referral profile updated successfully!');
+  };
 
   const handleCopyUrl = () => {
     navigator.clipboard.writeText(referralUrl);
@@ -48,19 +74,83 @@ export default function ReferralModal() {
         </button>
 
         {/* Modal Header */}
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-rosegold-600 to-amber-400 flex items-center justify-center shadow-lg shadow-rosegold-500/25">
-            <QrCode className="w-5 h-5 text-ivory-50" />
-          </div>
-          <div>
-            <h3 className="font-serif text-lg sm:text-xl tracking-wider text-rosegold-300 font-medium">
-              REFERRAL QR & LINK
-            </h3>
-            <p className="text-[11px] text-ivory-300/70 font-light">
-              Account: <span className="text-ivory-100 font-medium">{accountName}</span>
-            </p>
+        <div className="flex items-center justify-between mb-6 pr-8">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-rosegold-600 to-amber-400 flex items-center justify-center shadow-lg shadow-rosegold-500/25">
+              <QrCode className="w-5 h-5 text-ivory-50" />
+            </div>
+            <div>
+              <h3 className="font-serif text-lg sm:text-xl tracking-wider text-rosegold-300 font-medium">
+                REFERRAL QR & LINK
+              </h3>
+              {!isEditing ? (
+                <div className="flex items-center gap-2">
+                  <p className="text-[11px] text-ivory-300/70 font-light">
+                    Account: <span className="text-ivory-100 font-medium">{accountName}</span>
+                  </p>
+                  <button
+                    onClick={() => {
+                      setTempName(accountName);
+                      setTempCode(referralCode);
+                      setIsEditing(true);
+                    }}
+                    className="text-rosegold-400 hover:text-white transition"
+                    title="Edit Name & Code"
+                  >
+                    <Edit3 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              ) : null}
+            </div>
           </div>
         </div>
+
+        {/* Editing Form */}
+        {isEditing ? (
+          <form onSubmit={handleSaveProfile} className="mb-6 p-4 bg-rosewood-900/90 border border-rosegold-500/40 rounded-2xl space-y-3">
+            <div>
+              <label className="block text-[10px] uppercase tracking-widest text-rosegold-400 font-semibold mb-1">
+                Your Name / Account Name
+              </label>
+              <input
+                type="text"
+                required
+                value={tempName}
+                onChange={(e) => setTempName(e.target.value)}
+                className="w-full px-3 py-2 text-xs bg-rosewood-950 border border-rosegold-500/30 rounded-xl text-ivory-100 focus:outline-none focus:border-rosegold-400"
+                placeholder="Enter your name..."
+              />
+            </div>
+            <div>
+              <label className="block text-[10px] uppercase tracking-widest text-rosegold-400 font-semibold mb-1">
+                Your Referral Code
+              </label>
+              <input
+                type="text"
+                required
+                value={tempCode}
+                onChange={(e) => setTempCode(e.target.value.toUpperCase())}
+                className="w-full px-3 py-2 text-xs font-mono bg-rosewood-950 border border-rosegold-500/30 rounded-xl text-ivory-100 focus:outline-none focus:border-rosegold-400"
+                placeholder="e.g. SB-NAME123"
+              />
+            </div>
+            <div className="flex gap-2 pt-1">
+              <button
+                type="submit"
+                className="flex-1 py-2 rounded-xl bg-rosegold-600 hover:bg-rosegold-500 text-white text-xs font-semibold uppercase tracking-wider transition shadow"
+              >
+                Save Changes
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsEditing(false)}
+                className="px-3 py-2 rounded-xl bg-rosewood-800 text-ivory-300 text-xs font-medium hover:bg-rosewood-700 transition"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        ) : null}
 
         {/* QR Code Container */}
         <div className="bg-gradient-to-b from-ivory-50 to-ivory-100 p-6 rounded-2xl shadow-inner flex flex-col items-center justify-center mb-6 relative border border-rosegold-200">
