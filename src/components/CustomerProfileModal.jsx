@@ -20,24 +20,36 @@ import {
 } from 'lucide-react';
 
 export default function CustomerProfileModal() {
+  const store = useStore() || {};
   const {
-    isProfileOpen,
-    setIsProfileOpen,
-    customerProfile,
-    setCustomerProfile,
-    orders,
-    showToast
-  } = useStore();
+    isProfileOpen = false,
+    setIsProfileOpen = () => {},
+    customerProfile = {},
+    setCustomerProfile = () => {},
+    orders = [],
+    showToast = () => {}
+  } = store;
+
+  const profile = {
+    name: customerProfile.name || 'Sanjay Jagtap',
+    phone: customerProfile.phone || '+91 98230 45678',
+    email: customerProfile.email || 'sanjay.jagtap@example.com',
+    address: customerProfile.address || '104, Royal Heritage Residency, MG Road',
+    city: customerProfile.city || 'Pune',
+    state: customerProfile.state || 'Maharashtra',
+    pincode: customerProfile.pincode || '411001',
+    referralCode: customerProfile.referralCode || 'SB-SANJAY789'
+  };
 
   const [activeTab, setActiveTab] = useState('profile'); // 'profile' | 'referral' | 'orders'
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState(customerProfile);
+  const [formData, setFormData] = useState(profile);
   const [copied, setCopied] = useState(false);
   const [copiedCode, setCopiedCode] = useState(false);
 
   if (!isProfileOpen) return null;
 
-  const referralUrl = `https://suvarna-bharat.netlify.app/?ref=${customerProfile.referralCode}`;
+  const referralUrl = `https://suvarna-bharat.netlify.app/?ref=${profile.referralCode}`;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -48,7 +60,7 @@ export default function CustomerProfileModal() {
     e.preventDefault();
     const updated = {
       ...formData,
-      referralCode: formData.referralCode.trim().toUpperCase() || 'SB-VIP888'
+      referralCode: (formData.referralCode || 'SB-VIP888').trim().toUpperCase()
     };
     setCustomerProfile(updated);
     localStorage.setItem('sb_account_name', updated.name);
@@ -65,9 +77,9 @@ export default function CustomerProfileModal() {
   };
 
   const handleCopyCode = () => {
-    navigator.clipboard.writeText(customerProfile.referralCode);
+    navigator.clipboard.writeText(profile.referralCode);
     setCopiedCode(true);
-    showToast(`Referral code "${customerProfile.referralCode}" copied!`);
+    showToast(`Referral code "${profile.referralCode}" copied!`);
     setTimeout(() => setCopiedCode(false), 3000);
   };
 
@@ -161,7 +173,7 @@ export default function CustomerProfileModal() {
                 {!isEditing && (
                   <button
                     onClick={() => {
-                      setFormData(customerProfile);
+                      setFormData(profile);
                       setIsEditing(true);
                     }}
                     className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-rosegold-600 hover:bg-rosegold-500 text-white text-xs font-semibold uppercase tracking-wider transition shadow"
@@ -181,7 +193,7 @@ export default function CustomerProfileModal() {
                         type="text"
                         name="name"
                         required
-                        value={formData.name}
+                        value={formData.name || ''}
                         onChange={handleInputChange}
                         className="w-full px-3 py-2.5 text-xs bg-rosewood-950 border border-rosegold-500/30 rounded-xl text-ivory-100"
                       />
@@ -192,7 +204,7 @@ export default function CustomerProfileModal() {
                         type="text"
                         name="phone"
                         required
-                        value={formData.phone}
+                        value={formData.phone || ''}
                         onChange={handleInputChange}
                         className="w-full px-3 py-2.5 text-xs bg-rosewood-950 border border-rosegold-500/30 rounded-xl text-ivory-100"
                       />
@@ -206,7 +218,7 @@ export default function CustomerProfileModal() {
                         type="email"
                         name="email"
                         required
-                        value={formData.email}
+                        value={formData.email || ''}
                         onChange={handleInputChange}
                         className="w-full px-3 py-2.5 text-xs bg-rosewood-950 border border-rosegold-500/30 rounded-xl text-ivory-100"
                       />
@@ -217,7 +229,7 @@ export default function CustomerProfileModal() {
                         type="text"
                         name="referralCode"
                         required
-                        value={formData.referralCode}
+                        value={formData.referralCode || ''}
                         onChange={handleInputChange}
                         className="w-full px-3 py-2.5 text-xs font-mono bg-rosewood-950 border border-rosegold-500/30 rounded-xl text-ivory-100"
                       />
@@ -230,7 +242,7 @@ export default function CustomerProfileModal() {
                       type="text"
                       name="address"
                       required
-                      value={formData.address}
+                      value={formData.address || ''}
                       onChange={handleInputChange}
                       className="w-full px-3 py-2.5 text-xs bg-rosewood-950 border border-rosegold-500/30 rounded-xl text-ivory-100"
                     />
@@ -243,7 +255,7 @@ export default function CustomerProfileModal() {
                         type="text"
                         name="city"
                         required
-                        value={formData.city}
+                        value={formData.city || ''}
                         onChange={handleInputChange}
                         className="w-full px-3 py-2.5 text-xs bg-rosewood-950 border border-rosegold-500/30 rounded-xl text-ivory-100"
                       />
@@ -254,7 +266,7 @@ export default function CustomerProfileModal() {
                         type="text"
                         name="state"
                         required
-                        value={formData.state}
+                        value={formData.state || ''}
                         onChange={handleInputChange}
                         className="w-full px-3 py-2.5 text-xs bg-rosewood-950 border border-rosegold-500/30 rounded-xl text-ivory-100"
                       />
@@ -265,7 +277,7 @@ export default function CustomerProfileModal() {
                         type="text"
                         name="pincode"
                         required
-                        value={formData.pincode}
+                        value={formData.pincode || ''}
                         onChange={handleInputChange}
                         className="w-full px-3 py-2.5 text-xs bg-rosewood-950 border border-rosegold-500/30 rounded-xl text-ivory-100"
                       />
@@ -296,10 +308,10 @@ export default function CustomerProfileModal() {
                       <span>Account Information</span>
                     </div>
                     <div className="space-y-1 text-xs text-ivory-200">
-                      <p><strong className="text-ivory-400">Name:</strong> {customerProfile.name}</p>
-                      <p><strong className="text-ivory-400">Phone:</strong> {customerProfile.phone}</p>
-                      <p><strong className="text-ivory-400">Email:</strong> {customerProfile.email}</p>
-                      <p><strong className="text-ivory-400">VIP Referral Code:</strong> <span className="font-mono bg-rosegold-500/20 px-2 py-0.5 rounded text-rosegold-300">{customerProfile.referralCode}</span></p>
+                      <p><strong className="text-ivory-400">Name:</strong> {profile.name}</p>
+                      <p><strong className="text-ivory-400">Phone:</strong> {profile.phone}</p>
+                      <p><strong className="text-ivory-400">Email:</strong> {profile.email}</p>
+                      <p><strong className="text-ivory-400">VIP Referral Code:</strong> <span className="font-mono bg-rosegold-500/20 px-2 py-0.5 rounded text-rosegold-300">{profile.referralCode}</span></p>
                     </div>
                   </div>
 
@@ -309,8 +321,8 @@ export default function CustomerProfileModal() {
                       <span>Default Delivery Address</span>
                     </div>
                     <div className="space-y-1 text-xs text-ivory-200">
-                      <p>{customerProfile.address}</p>
-                      <p>{customerProfile.city}, {customerProfile.state} - {customerProfile.pincode}</p>
+                      <p>{profile.address}</p>
+                      <p>{profile.city}, {profile.state} - {profile.pincode}</p>
                       <div className="pt-2 flex items-center gap-1.5 text-emerald-400 text-[11px]">
                         <ShieldCheck className="w-3.5 h-3.5" />
                         <span>Eligible for 100% Insured Armored Transit</span>
@@ -403,7 +415,7 @@ export default function CustomerProfileModal() {
                     </label>
                     <div className="flex items-center justify-between px-3 py-2.5 bg-rosewood-900/90 border border-rosegold-500/30 rounded-xl">
                       <span className="font-mono text-sm font-bold text-ivory-50 tracking-wider">
-                        {customerProfile.referralCode}
+                        {profile.referralCode}
                       </span>
                       <button
                         onClick={handleCopyCode}
