@@ -8,7 +8,6 @@ import {
   X, 
   ShieldCheck, 
   Sparkles, 
-  UserCheck, 
   SlidersHorizontal,
   Compass,
   QrCode,
@@ -196,7 +195,7 @@ export default function Header() {
               className="hidden lg:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-rosegold-50 hover:bg-rosegold-100 text-rosegold-700 border border-rosegold-300 text-xs font-semibold uppercase tracking-wider transition shadow-sm"
               title="Customer Profile & Refer Hub"
             >
-              <UserCheck className="w-3.5 h-3.5 text-rosegold-600" />
+              <User className="w-3.5 h-3.5 text-rosegold-600" />
               <span>My Profile & Refer</span>
             </button>
 
@@ -209,7 +208,7 @@ export default function Header() {
                   : 'bg-ivory-100 text-rosewood-800 border-rosegold-300 hover:bg-rosegold-500 hover:text-white hover:border-rosegold-500'
               }`}
             >
-              <UserCheck className="w-3.5 h-3.5" />
+              <User className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">{currentView === 'admin' ? 'Store Front' : 'Admin Panel'}</span>
             </button>
 
