@@ -180,14 +180,14 @@ export default function Header() {
               )}
             </button>
 
-            {/* Refer & Earn Button */}
+            {/* Profile & Refer Button */}
             <button
               onClick={() => setIsReferralOpen(true)}
               className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-rosegold-50 hover:bg-rosegold-100 text-rosegold-700 border border-rosegold-300 text-xs font-semibold uppercase tracking-wider transition shadow-sm"
-              title="Refer & Earn"
+              title="Customer Profile & Refer Hub"
             >
-              <QrCode className="w-3.5 h-3.5 text-rosegold-600" />
-              <span>Refer & Earn</span>
+              <UserCheck className="w-3.5 h-3.5 text-rosegold-600" />
+              <span>My Profile & Refer</span>
             </button>
 
             {/* Admin Portal Toggle */}

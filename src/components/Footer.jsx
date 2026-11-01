@@ -165,8 +165,8 @@ export default function Footer() {
                   }}
                   className="text-rosegold-300 hover:text-white cursor-pointer transition flex items-center gap-1.5 font-medium"
                 >
-                  <QrCode className="w-3.5 h-3.5 text-rosegold-400" />
-                  <span>Refer & Earn Program (QR & Link)</span>
+                  <UserCheck className="w-3.5 h-3.5 text-rosegold-400" />
+                  <span>Customer Profile & Refer Hub</span>
                 </button>
               </li>
             </ul>

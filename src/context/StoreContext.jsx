@@ -141,7 +141,30 @@ export function StoreProvider({ children }) {
   const [isTrackerOpen, setIsTrackerOpen] = useState(false);
   const [trackerOrderId, setTrackerOrderId] = useState('');
   const [lastPlacedOrder, setLastPlacedOrder] = useState(null);
-  const [isReferralOpen, setIsReferralOpen] = useState(false);
+
+  // Customer Profile & Referral Hub State
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const isReferralOpen = isProfileOpen;
+  const setIsReferralOpen = setIsProfileOpen;
+
+  const [customerProfile, setCustomerProfile] = useState(() => {
+    const saved = localStorage.getItem('sb_customer_profile_v1');
+    return saved ? JSON.parse(saved) : {
+      name: localStorage.getItem('sb_account_name') || 'Sanjay Jagtap',
+      phone: '+91 98230 45678',
+      email: 'sanjay.jagtap@example.com',
+      address: '104, Royal Heritage Residency, MG Road',
+      city: 'Pune',
+      state: 'Maharashtra',
+      pincode: '411001',
+      referralCode: localStorage.getItem('sb_referral_code') || 'SB-SANJAY789'
+    };
+  });
+
+  useEffect(() => {
+    localStorage.setItem('sb_customer_profile_v1', JSON.stringify(customerProfile));
+  }, [customerProfile]);
+
   const [toast, setToast] = useState(null);
 
   // Filters for Shop page
@@ -393,6 +416,8 @@ export function StoreProvider({ children }) {
       trackerOrderId,
       lastPlacedOrder,
       isReferralOpen,
+      isProfileOpen,
+      customerProfile,
       toast,
       isAdminAuthenticated,
       filterMetal,
@@ -412,6 +437,8 @@ export function StoreProvider({ children }) {
       setIsCheckoutOpen,
       setIsTrackerOpen,
       setIsReferralOpen,
+      setIsProfileOpen,
+      setCustomerProfile,
       setTrackerOrderId,
       setLastPlacedOrder,
       setIsAdminAuthenticated,

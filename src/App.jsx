@@ -11,7 +11,7 @@ import WishlistModal from './components/WishlistModal';
 import CheckoutModal from './components/CheckoutModal';
 import OrderSuccessModal from './components/OrderSuccessModal';
 import OrderTrackerModal from './components/OrderTrackerModal';
-import ReferralModal from './components/ReferralModal';
+import CustomerProfileModal from './components/CustomerProfileModal';
 import Footer from './components/Footer';
 import ShopPage from './pages/ShopPage';
 import AdminDashboard from './pages/AdminDashboard';
@@ -247,7 +247,7 @@ function AppContent() {
       <CheckoutModal />
       <OrderSuccessModal />
       <OrderTrackerModal />
-      <ReferralModal />
+      <CustomerProfileModal />
 
       {/* Footer */}
       <Footer />
