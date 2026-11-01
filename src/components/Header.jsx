@@ -11,7 +11,8 @@ import {
   UserCheck, 
   SlidersHorizontal,
   Compass,
-  QrCode
+  QrCode,
+  User
 } from 'lucide-react';
 
 export default function Header() {
@@ -180,10 +181,19 @@ export default function Header() {
               )}
             </button>
 
+            {/* Profile Icon Button (Visible on all screens) */}
+            <button
+              onClick={() => setIsReferralOpen(true)}
+              className="relative p-2.5 rounded-full text-rosewood-700 hover:text-rosegold-600 hover:bg-rosegold-50 transition border border-rosegold-300/60 bg-rosegold-50/50"
+              title="Customer Profile & Refer Hub"
+            >
+              <User className="w-5 h-5 text-rosegold-700" />
+            </button>
+
             {/* Profile & Refer Button */}
             <button
               onClick={() => setIsReferralOpen(true)}
-              className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-rosegold-50 hover:bg-rosegold-100 text-rosegold-700 border border-rosegold-300 text-xs font-semibold uppercase tracking-wider transition shadow-sm"
+              className="hidden lg:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-rosegold-50 hover:bg-rosegold-100 text-rosegold-700 border border-rosegold-300 text-xs font-semibold uppercase tracking-wider transition shadow-sm"
               title="Customer Profile & Refer Hub"
             >
               <UserCheck className="w-3.5 h-3.5 text-rosegold-600" />
